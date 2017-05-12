@@ -12,7 +12,8 @@ TOPOLOGY = [2 2 1];
 
 % create cell array for layer activation functions: [L1 L2 ... Ln output]
 % can also use, for example, ACTFNS{a:n} = @fcn to build deep networks
-ACTFNS = {@sigmoid, @sigmoid};
+ACTFNS = cell(1,size(TOPOLOGY,2)-1);
+ACTFNS(1:end) = @sigmoid;
 
 % build network based on topology -- assumes a fully connected network
 [THETAs Xs] = nnbuild(TOPOLOGY);
@@ -33,9 +34,9 @@ lambda = 0;
 THETAs = nntrain(options,THETAs,Xs,INPUT,OUTPUT,TOPOLOGY,ACTFNS,@msqerr,lambda)
 
 % feed test inputs through trained network, determine extent of the error
-Xs = nnfeedforward(THETAs,Xs,[1;1]);
+Xs = nnfeedforward(THETAs,Xs,[1;1],ACTFNS);
 Xs(end)
-Xs = nnfeedforward(THETAs,Xs,[1;0]);
+Xs = nnfeedforward(THETAs,Xs,[1;0],ACTFNS);
 Xs(end)
-Xs = nnfeedforward(THETAs,Xs,[0;0]);
+Xs = nnfeedforward(THETAs,Xs,[0;0],ACTFNS);
 Xs(end)

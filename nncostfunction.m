@@ -11,7 +11,7 @@ function [J grad] = nncostfunction(_THETA,THETAs,Xs,INPUT,OUTPUT,TOPOLOGY,errfun
   THETAs = nnpack(_THETA,TOPOLOGY);
   
   % feedforward to calculate all output values through the network
-  Xs = nnfeedforward(THETAs, Xs, INPUT);
+  Xs = nnfeedforward(THETAs,Xs,INPUT,ACTFNS);
   
   % evaulate cost function
   [J err] = errfunc(cell2mat(Xs(end)),OUTPUT);
